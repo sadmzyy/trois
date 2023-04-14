@@ -63,8 +63,8 @@ function createConfig(format, output, plugins = [], minify = false) {
 }
 
 export default [
-  createConfig('es', { file: 'build/trois.module.cdn.js' }, [replace(cdnReplaces)]),
-  createConfig('es', { file: 'build/trois.module.cdn.min.js' }, [replace(cdnReplaces)], true),
+  // createConfig('es', { file: 'build/trois.module.cdn.js' }, [replace(cdnReplaces)]),
+  // createConfig('es', { file: 'build/trois.module.cdn.min.js' }, [replace(cdnReplaces)], true),
   createConfig('es', { file: 'build/trois.module.js' }),
   createConfig('es', { file: 'build/trois.module.min.js' }, [], true),
   createConfig('cjs', { file: 'build/trois.js' }),
