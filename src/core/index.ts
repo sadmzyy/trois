@@ -9,5 +9,7 @@ export { default as Raycaster } from './Raycaster'
 
 export { default as CubeCamera } from './CubeCamera'
 
+export { default as CoordinateAxesViewport } from './axes/CoordinateAxesViewport'
+
 export type { RendererPublicInterface } from './Renderer'
 export type { Object3DPublicInterface } from './Object3D'

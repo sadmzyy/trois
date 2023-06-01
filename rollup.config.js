@@ -27,7 +27,15 @@ const external = [
   'three/examples/jsm/postprocessing/ShaderPass.js',
   'three/examples/jsm/postprocessing/UnrealBloomPass.js',
   'three/examples/jsm/shaders/FXAAShader.js',
+  'three/examples/jsm/renderers/CSS2DRenderer.js',
+  'three/examples/jsm/exporters/DRACOExporter.js',
+  'three/examples/jsm/exporters/OBJExporter.js',
+  'three/examples/jsm/modifiers/SimplifyModifier.js',
+  'three/examples/jsm/loaders/DRACOLoader.js',
+  'three/examples/jsm/loaders/FontLoader.js',
+  'three/examples/jsm/geometries/TextGeometry.js',
   'three/examples/jsm/webxr/VRButton.js',
+  '@tweenjs/tween.js',
   'vue',
 ]
 

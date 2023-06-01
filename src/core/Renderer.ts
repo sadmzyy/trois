@@ -1,10 +1,11 @@
 /* eslint-disable no-use-before-define */
 import { Camera, Scene, WebGLRenderer, WebGLRendererParameters } from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
-import { ComponentPublicInstance, defineComponent, InjectionKey, PropType, watchEffect } from 'vue'
+import { ComponentPublicInstance, defineComponent, InjectionKey, PropType, watch, watchEffect } from 'vue'
 import { bindObjectProp } from '../tools'
 import { PointerInterface, PointerPublicConfigInterface } from './usePointer'
 import useThree, { SizeInterface, ThreeConfigInterface, ThreeInterface } from './useThree'
+import * as TWEEN from '@tweenjs/tween.js'
 
 type CallbackType<T> = (event: T) => void
 
@@ -267,6 +268,8 @@ export default defineComponent({
       // this.onFrame?.(cbParams)
       this.renderFn({ renderer: this, time })
       this.afterRenderCallbacks.forEach(e => e({ type: 'afterrender', renderer: this, time }))
+
+      this.three.tween && TWEEN.update()
     },
     renderLoop(time: number) {
       if (this.raf) requestAnimationFrame(this.renderLoop)

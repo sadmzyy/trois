@@ -9,10 +9,10 @@ export default defineComponent({
   extends: Camera,
   name: 'PerspectiveCamera',
   props: {
-    aspect: { type: Number, default: 1 },
-    far: { type: Number, default: 2000 },
+    aspect: { type: Number, default: 2.049 },
+    far: { type: Number, default: 30000 },
     fov: { type: Number, default: 50 },
-    near: { type: Number, default: 0.1 },
+    near: { type: Number, default: 0.5 },
     position: { type: Object as PropType<Vector3PropInterface>, default: () => ({ x: 0, y: 0, z: 0 }) },
     lookAt: { type: Object as PropType<Vector3PropInterface>, default: null },
   },

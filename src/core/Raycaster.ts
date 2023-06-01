@@ -18,6 +18,7 @@ export default defineComponent({
     onPointerMove: { type: Function as PropType<PointerIntersectCallbackType>, default: emptyCallBack },
     onPointerLeave: { type: Function as PropType<PointerIntersectCallbackType>, default: emptyCallBack },
     onClick: { type: Function as PropType<PointerIntersectCallbackType>, default: emptyCallBack },
+    onDblClick: { type: Function as PropType<PointerIntersectCallbackType>, default: emptyCallBack },
     intersectMode: { type: String, default: 'move' },
     intersectRecursive: { type: Boolean, default: false },
   },
