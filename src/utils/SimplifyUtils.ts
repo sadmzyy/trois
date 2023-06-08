@@ -4,7 +4,7 @@ import { SimplifyModifier } from "three/examples/jsm/modifiers/SimplifyModifier.
 /**
  * SimplifyUtils class is used to simplify objects' geomery for a given object
  */
-export default class SimplifyUtils {
+export class SimplifyUtils {
   /**
    * Gets simplified object.
    */

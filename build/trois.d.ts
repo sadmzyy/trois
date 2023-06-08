@@ -9672,6 +9672,24 @@ declare class ExportUtils {
 }
 
 /**
+ * MaterialUtils class
+ */
+declare class MaterialUtils {
+    /**
+     * Compares two materials
+     */
+    static materialEquals(m1: three.Material, m2: three.Material): boolean;
+    /**
+     * Compares two materials, which could be material or material array
+     */
+    static materialsEquals(m1: three.Material | three.Material[], m2: three.Material | three.Material[]): boolean;
+    /**
+     * Compares two colors
+     */
+    static colorEquals(c1: three.Color, c2: three.Color): boolean;
+}
+
+/**
  * Exploder class is used to explode an object
  */
 declare class Exploder {
@@ -9858,6 +9876,88 @@ declare class PmremUtils {
     private static HDR_CITY_STREET_64x32;
 }
 
+/**
+ * Util methods about Scene
+ */
+declare class SceneUtils {
+    /**
+     * Get all visible objects' bounding box in a scene.
+     * @param scene
+     */
+    static getVisibleObjectBoundingBox(scene: three.Scene): three.Box3;
+    static getObjectsBoundingBox(scene: three.Scene, objectUuids: string[]): three.Box3;
+    /**
+     * Box3.expandByObject() doesn't work well in some case.
+     * E.g. when object's position is far away from object's center?
+     * When objects are instanced?
+     * That's why we need a method to find bounding box by object's children!
+     * And, better to do sampling in case there are too many children.
+     */
+    static getBoundingBox(object: three.Object3D, sampling?: boolean): three.Box3;
+    /**
+     * InstancedMesh is different, we need to get its child meshes in order to get the bounding box
+     */
+    static getInstancedMeshBoundingBox(mesh: three.InstancedMesh): three.Box3;
+    private static explodeObject;
+    static explodeObjects(scene: three.Scene, exploderDict: {
+        [objId: number]: Exploder;
+    }, objectUuids: string[], onlyExplodeUp?: boolean): {
+        [objId: number]: Exploder;
+    };
+    static unexplodeObjects(scene: three.Scene, exploderDict: {
+        [objId: number]: Exploder;
+    }): void;
+    static getPositionCenter(object: three.Object3D, center: three.Vector3): void;
+}
+
+/**
+ * SimplifyUtils class is used to simplify objects' geomery for a given object
+ */
+declare class SimplifyUtils {
+    /**
+     * Gets simplified object.
+     */
+    static getSimplyfiedObject(object: three.Object3D, simplifyRate: number): three.Object3D;
+    /**
+     * Gets number of vertices to remove
+     */
+    private static getNumberOfVerticesToRemove;
+}
+
+/**
+ * Creates a sky box with light blue sky.
+ * See code here:
+ * https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_lightmap.html
+ */
+declare class SkyboxUtils {
+    static NAME: string;
+    static MIN_SKY_RADIUS: number;
+    static MAX_SKY_RADIUS: number;
+    static vertexShader: string;
+    static fragmentShader: string;
+    /**
+     * Creates sky
+     * @param radius
+     * @param widthSegments
+     * @param heightSegments
+     */
+    static createSkyOfGradientRamp(radius?: number, widthSegments?: number, heightSegments?: number, skyCenter?: three.Vector3): three.Mesh;
+    /**
+     * Creates sky according to objects in the scene. Need to do this because
+     * objects' size and position may be large or out of sky box.
+     */
+    static createSkyOfGradientRampByObjectsInScene(scene: three.Scene, objectUuids: string[]): three.Mesh;
+    /**
+     * Create sky according to a bounding box
+     */
+    static createSkyOfGradientRampByBoundingBox(bbox: three.Box3): three.Mesh<three.BufferGeometry, three.Material | three.Material[]>;
+    /**
+     * Creates skybox by 6 pictures. The texture should be assigned to scene.background.
+     * Currently, there is only a 'cloudy' texture.
+     */
+    static createSkyFromTextures(subFolder?: "cloudy"): Promise<three.CubeTexture>;
+}
+
 declare const unitConversionByMeter: {
     [key: string]: number;
 };
@@ -9885,6 +9985,49 @@ declare enum Views {
     Left = "Left",
     Right = "Right"
 }
+/**
+ * Util methods about Viewer3D
+ */
+declare class Viewer3DUtils {
+    /**
+     * Calculates camera position and look at point by given scene
+     * @param scene
+     * @param view
+     * @param eye this method pass out it to caller
+     * @param look this method pass out it to caller
+     */
+    static getCameraPositionByView(scene: three.Scene, view: Views | string, eye: three.Vector3, look: three.Vector3): void;
+    /**
+     * Calculates camera position and look at point by given object uuids
+     * @param scene
+     * @param objectUuids
+     * @param view
+     * @param eye
+     * @param look
+     */
+    static getCameraPositionByObjectUuids(scene: three.Scene, objectUuids: string[], view: Views | string, eye: three.Vector3, look: three.Vector3): void;
+    /**
+     * Gets camera's new position and target(lookAt) by given bbox and camera's current position
+     */
+    static getCameraPositionByObjects(objects: three.Object3D[], camera: three.Camera, eye: three.Vector3, look: three.Vector3): void;
+    /**
+     * Gets camera's new position and target(lookAt) by given bbox and camera's current position
+     */
+    static getCameraPositionByBboxAndCamera(bbox: three.Box3, camera: three.Camera, eye: three.Vector3, look: three.Vector3): void;
+    /**
+     * Gets camera's new position and target(lookAt) by given bbox and view
+     */
+    static getCameraPositionByBboxAndView(bbox: three.Box3, view: Views | string, eye: three.Vector3, look: three.Vector3): void;
+    /**
+     * Sleep a while
+     */
+    static sleep(ms: number): Promise<unknown>;
+    private static twinklingObjectUuids;
+    /**
+     * Twinkle the object several times
+     */
+    static twinkle(obj: three.Object3D, ms?: number): Promise<void>;
+}
 
 interface TextureConfigInterface {
     src: string;
@@ -9901,4 +10044,4 @@ interface TexturesInterface {
 }
 declare function useTextures(): TexturesInterface;
 
-export { _default$K as AmbientLight, BasicMaterial, _default$8 as BokehPass, _default$y as Box, _default$10 as BoxGeometry, Geometry as BufferGeometry, _default$15 as Camera, _default$x as Circle, _default$$ as CircleGeometry, ComposerInjectionKey, _default$w as Cone, _default$_ as ConeGeometry, CoordinateAxesViewport, _default$11 as CubeCamera, _default$A as CubeTexture, _default$v as Cylinder, _default$Z as CylinderGeometry, _default$J as DirectionalLight, _default$u as Dodecahedron, _default$Y as DodecahedronGeometry, _default$b as EffectComposer, _default$a as EffectPass, ExportUtils, _default$X as ExtrudeGeometry, _default$6 as FXAAPass, _default$c as FbxModel, _default$7 as FilmPass, _default$d as GltfModel, _default$14 as Group, _default$5 as HalftonePass, _default$I as HemisphereLight, _default$t as Icosahedron, _default$W as IcosahedronGeometry, _default$h as Image, _default$g as InstancedMesh, LambertMaterial, _default$s as Lathe, _default$V as LatheGeometry, _default$E as MatcapMaterial, BaseMaterial as Material, MaterialInfo, MaterialInjectionKey, MaterialPublicInterface, Mesh, MeshInjectionKey, MeshPublicInterface, _default$17 as Object3D, Object3DPublicInterface, ObjectUtils, _default$r as Octahedron, _default$U as OctahedronGeometry, _default$16 as OrthographicCamera, _default$15 as PerspectiveCamera, PhongMaterial, PhysicalMaterial, _default$q as Plane, _default$T as PlaneGeometry, PmremUtils, _default$H as PointLight, _default$e as Points, PointsMaterial, _default$p as Polyhedron, _default$S as PolyhedronGeometry, _default$12 as Raycaster, _default$G as RectAreaLight, _default$9 as RenderPass, _default$18 as Renderer, RendererInjectionKey, RendererPublicInterface, _default$o as Ring, _default$R as RingGeometry, _default$4 as SMAAPass, _default$3 as SSAOPass, _default$13 as Scene, SceneInjectionKey, _default$D as ShaderMaterial, ShadowMaterial, _default$P as ShapeGeometry, _default$n as Sphere, _default$Q as SphereGeometry, _default$F as SpotLight, _default$f as Sprite, StandardMaterial, _default$C as SubSurfaceMaterial, _default$m as Tetrahedron, _default$O as TetrahedronGeometry, _default$l as Text, _default$B as Texture, _default$2 as TiltShiftPass, ToonMaterial, _default$k as Torus, _default$N as TorusGeometry, _default$j as TorusKnot, _default$M as TorusKnotGeometry, TroisJSVuePlugin, _default$i as Tube, _default$L as TubeGeometry, _default$1 as UnrealBloomPass, _default$z as VideoTexture, Views, _default as ZoomBlurPass, applyObjectProps, bindObjectProp, bindObjectProps, bindProp, bindProps, createApp, decimalPrecisionRange, getLengthValueByUnit, getMatcapUrl, getUnitStr, lerp, limit, propsValues, setFromProp, showPrecisionValue, unitConversionByMeter, unitLabel, useTextures };
+export { _default$K as AmbientLight, BasicMaterial, _default$8 as BokehPass, _default$y as Box, _default$10 as BoxGeometry, Geometry as BufferGeometry, _default$15 as Camera, _default$x as Circle, _default$$ as CircleGeometry, ComposerInjectionKey, _default$w as Cone, _default$_ as ConeGeometry, CoordinateAxesViewport, _default$11 as CubeCamera, _default$A as CubeTexture, _default$v as Cylinder, _default$Z as CylinderGeometry, _default$J as DirectionalLight, _default$u as Dodecahedron, _default$Y as DodecahedronGeometry, _default$b as EffectComposer, _default$a as EffectPass, ExportUtils, _default$X as ExtrudeGeometry, _default$6 as FXAAPass, _default$c as FbxModel, _default$7 as FilmPass, _default$d as GltfModel, _default$14 as Group, _default$5 as HalftonePass, _default$I as HemisphereLight, _default$t as Icosahedron, _default$W as IcosahedronGeometry, _default$h as Image, _default$g as InstancedMesh, LambertMaterial, _default$s as Lathe, _default$V as LatheGeometry, _default$E as MatcapMaterial, BaseMaterial as Material, MaterialInfo, MaterialInjectionKey, MaterialPublicInterface, MaterialUtils, Mesh, MeshInjectionKey, MeshPublicInterface, _default$17 as Object3D, Object3DPublicInterface, ObjectUtils, _default$r as Octahedron, _default$U as OctahedronGeometry, _default$16 as OrthographicCamera, _default$15 as PerspectiveCamera, PhongMaterial, PhysicalMaterial, _default$q as Plane, _default$T as PlaneGeometry, PmremUtils, _default$H as PointLight, _default$e as Points, PointsMaterial, _default$p as Polyhedron, _default$S as PolyhedronGeometry, _default$12 as Raycaster, _default$G as RectAreaLight, _default$9 as RenderPass, _default$18 as Renderer, RendererInjectionKey, RendererPublicInterface, _default$o as Ring, _default$R as RingGeometry, _default$4 as SMAAPass, _default$3 as SSAOPass, _default$13 as Scene, SceneInjectionKey, SceneUtils, _default$D as ShaderMaterial, ShadowMaterial, _default$P as ShapeGeometry, SimplifyUtils, SkyboxUtils, _default$n as Sphere, _default$Q as SphereGeometry, _default$F as SpotLight, _default$f as Sprite, StandardMaterial, _default$C as SubSurfaceMaterial, _default$m as Tetrahedron, _default$O as TetrahedronGeometry, _default$l as Text, _default$B as Texture, _default$2 as TiltShiftPass, ToonMaterial, _default$k as Torus, _default$N as TorusGeometry, _default$j as TorusKnot, _default$M as TorusKnotGeometry, TroisJSVuePlugin, _default$i as Tube, _default$L as TubeGeometry, _default$1 as UnrealBloomPass, _default$z as VideoTexture, Viewer3DUtils, Views, _default as ZoomBlurPass, applyObjectProps, bindObjectProp, bindObjectProps, bindProp, bindProps, createApp, decimalPrecisionRange, getLengthValueByUnit, getMatcapUrl, getUnitStr, lerp, limit, propsValues, setFromProp, showPrecisionValue, unitConversionByMeter, unitLabel, useTextures };

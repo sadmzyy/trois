@@ -1,6 +1,6 @@
 import { Camera, Object3D, OrthographicCamera, PerspectiveCamera, Scene, WebGLRenderer, WebGLRendererParameters, InstancedMesh, Material, Matrix4, Mesh, Color, MeshStandardMaterial, MeshPhongMaterial, MeshBasicMaterial, LineBasicMaterial, MeshLambertMaterial, DoubleSide, Vector3 } from 'three'
 import * as TWEEN from '@tweenjs/tween.js'
-import Viewer3DUtils, { Views } from "../utils/Viewer3DUtils"
+import { Viewer3DUtils } from "../utils/Viewer3DUtils"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import usePointer, { PointerConfigInterface, PointerPublicConfigInterface, PointerInterface, PointerSelectObjectInterface } from './usePointer'

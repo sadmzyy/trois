@@ -1,12 +1,12 @@
 import * as THREE from "three";
-import SceneUtils from "./SceneUtils";
+import { SceneUtils } from "./SceneUtils";
 
 /**
  * Creates a sky box with light blue sky.
  * See code here:
  * https://github.com/mrdoob/three.js/blob/master/examples/webgl_materials_lightmap.html
  */
-export default class SkyboxUtils {
+export class SkyboxUtils {
   static NAME = "SKYBOX";
   static MIN_SKY_RADIUS = 4000;
   static MAX_SKY_RADIUS = 20000;

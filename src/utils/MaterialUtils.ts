@@ -3,7 +3,7 @@ import * as THREE from "three";
 /**
  * MaterialUtils class
  */
-export default class MaterialUtils {
+export class MaterialUtils {
   /**
    * Compares two materials
    */

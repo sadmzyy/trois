@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import SceneUtils from "./SceneUtils";
+import { SceneUtils } from "./SceneUtils";
 
 export enum Views {
   Top = "Top",
@@ -13,7 +13,7 @@ export enum Views {
 /**
  * Util methods about Viewer3D
  */
-export default class Viewer3DUtils {
+export class Viewer3DUtils {
   /**
    * Calculates camera position and look at point by given scene
    * @param scene

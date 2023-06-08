@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { matrixAutoUpdate } from "./Constants";
 import Exploder from "../exploder/Exploder";
-import SceneUtils from "./SceneUtils";
+import { SceneUtils } from "./SceneUtils";
 
 export interface MaterialInfo {
   uuid: string;

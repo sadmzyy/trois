@@ -4,7 +4,7 @@ import Exploder from "../exploder/Exploder";
 /**
  * Util methods about Scene
  */
-export default class SceneUtils {
+export class SceneUtils {
   /**
    * Get all visible objects' bounding box in a scene.
    * @param scene
